@@ -1,0 +1,54 @@
+@import "./normalize.css";
+
+:root {/*: 伪类，这里获取root元素，html就是其root元素*/
+    --color-text: #666;/*--提前定义变量，通过var()找到变量*/
+    --color-high-text: #ff5777;/*--高亮时颜色*/
+    --color-tint: #ff8198;
+    --color-background: #fff;
+    --font-size: 14px;
+    --line-height: 1.5;
+}
+
+*，
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;/*规定两个并排的带边框的框*/
+}
+
+body{
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    user-select: none;/* 有些文字我们需要能被选中，有些我们不要能被选中;none为不能被选中*,/* 禁止用户鼠标在页面上选中文字/图片等 */
+    -webkit-tap-highlight-color: transparent;/* webkit是苹果浏览器引擎，tap点击，highlight背景高亮，color颜色，颜色用数值调节 */
+    background: var(--color-background);
+    color: var(--color-text);
+    /* rem vw/vh 不同自适应方案*/
+    width: 100vw;/*相对视窗宽度，vh高度*/
+}
+
+a{
+    color: var(--color-text);
+    text-decoration: none;/*文本修饰*/
+}
+
+.clear-fix::after{/*伪元素*/
+    clear:both;/*清楚浮动，不允许有浮动对象*/
+    content:'';/*content 属性与 :before 及 :after 伪元素配合使用，来插入生成内容。*/
+    display: block;
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.clear-fix{
+    zoom: 1;/*设置或检索对象的缩放比例。zoom：normal | <number> | <percentage>,用浮点数来定义缩放比例。不允许负值*/
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}
