@@ -31,6 +31,7 @@
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
     <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
+    <toast :message="message" :isShow="isShow"></toast>
   </div>
 </template>
 <script>
@@ -45,6 +46,11 @@ import DetailBottomBar from "./childComps/DetailBottomBar.vue"
 // import BackTop from "@/components/content/backTop/BackTop"
 //复用goodslist组件代替推荐商品部分
 import GoodsList from "@/components/content/goods/GoodsList.vue";
+
+//封装的toast组件用法
+import Toast from "@/components/common/toast/Toast.vue"
+
+import { mapActions } from "vuex"
 
 import Scroll from "@/components/common/scroll/Scroll.vue";
 
@@ -72,6 +78,7 @@ export default {
     // BackTop,
     GoodsList,
     Scroll,
+    Toast
   },
   mixins:[backTopMixin],
   data() {
@@ -87,6 +94,8 @@ export default {
       themeTopYs: [],
       currentIndex: 0,
       isShowBackTop: false,
+      message: '',
+      isShow: false
     };
   },
   created() {
@@ -150,6 +159,8 @@ export default {
   mounted() {},
   updated() {},
   methods: {
+    //mapActions映射函数，要记得导入
+    ...mapActions(['addCart']),
     imageLoad() {
       this.$refs.scroll.refresh();
       this.themeTopYs = [];
@@ -207,8 +218,25 @@ export default {
       // this.$store.cartList.push() 不要这么做 $store中修改数据需要通过mutations、commit等
       // this.$store.commit('addCart',product);
       // 复杂的逻辑操作和运算以及异步操作放在actions中
-      this.$store.dispatch('addCart',product);
-      console.log(this.$store.state.cartList);
+      
+      this.addCart(product).then(res=>{
+        //1.普通toast封装
+        // console.log(res);
+        // this.isShow = true;
+        // this.message = res;
+        // setTimeout(()=>{
+        //   this.isShow = false;
+        // },1000)
+        //2.以插件的形式封装
+        console.log(this.$toast);
+        this.$toast.show(res,800);
+      })
+      // this.$store.dispatch('addCart',product).then(res=>{
+      //   console.log(res);
+      // });
+      // console.log(this.$store.state.cartList);
+      //3.添加到购物车成功
+      
     }
   },
 }; 
